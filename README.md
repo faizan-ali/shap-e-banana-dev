@@ -26,7 +26,7 @@ For more info, check out the [Banana.dev docs](https://docs.banana.dev/banana-do
 
 ### Using Docker
 
-Build the model as a Docker image.
+Build the model as a Docker image. You can change the `banana-bert` part to anything.
 
 ```sh
 docker build -t banana-bert .
