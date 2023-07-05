@@ -1,6 +1,4 @@
 {
-    "name": "",
-    "category": "",
     "example_input": {
         "prompt": "Hello I am a [MASK] model."
     },
