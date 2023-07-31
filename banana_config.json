@@ -1,22 +1,27 @@
 {
-    "example_input": {
-        "prompt": "Hello I am a [MASK] model."
-    },
-    "example_output": {
-        "outputs":[
-            {
-                "score":0.13177461922168732,
-                "token":4827,
-                "token_str":"fashion",
-                "sequence":"hello i am a fashion model."
-            },
-            {
-                "score":0.1120428815484047,
-                "token":2535,
-                "token_str":"role",
-                "sequence":"hello i am a role model."
-            }
-        ]
-    },
-    "version": "1"
+	"version": "1",
+	"inputs": [
+		{
+			"name": "prompt",
+			"type": "string",
+			"required": true,
+			"max": 2048,
+			"description": "The prompt to complete."
+		}
+	],
+	"examples": [
+		{
+			"inputs": {
+				"prompt": "Software developers start with a \"Hello, [MASK]!\" script."
+			},
+			"output": {
+				"outputs": {
+					"score": 0.8070755004882812,
+					"token": 2088,
+					"token_str": "world",
+					"sequence": "software developers start with a \" hello, world! \" script."
+				}
+			}
+		}
+	]
 }
