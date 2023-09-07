@@ -1,12 +1,10 @@
 from potassium import Potassium, Request, Response
-import base64
 import boto3
 import torch
 
 from shap_e.diffusion.sample import sample_latents
 from shap_e.diffusion.gaussian_diffusion import diffusion_from_config
 from shap_e.models.download import load_model, load_config
-from shap_e.util.notebooks import decode_latent_mesh
 import os
 from dotenv import load_dotenv
 
@@ -14,8 +12,7 @@ load_dotenv()
 
 app = Potassium("my_app")
 
-AWS_ACCESS_KEY_ID = ''
-AWS_SECRET_ACCESS_KEY = ''
+
 # @app.init runs at startup, and loads models into the app's context
 @app.init
 def init():
@@ -43,7 +40,7 @@ def handler(context: dict, request: Request) -> Response:
     device = context.get("device")
     xm = context.get("xm")
 
-    print('Generating 3D model for prompt: ', prompt)
+    print('Generating 3D model for: ', prompt)
 
     batch_size = 1
     guidance_scale = 15.0
@@ -70,9 +67,10 @@ def handler(context: dict, request: Request) -> Response:
     with open(prompt, 'w') as f:
         t.write_obj(f)
 
-    print('3D asset generated for' + prompt)
+    print('3D asset generated for:' + prompt)
 
-    s3 = boto3.client('s3', aws_access_key_id=os.environ['AWS_ACCESS_KEY_ID'], aws_secret_access_key=os.environ['AWS_SECRET_ACCESS_KEY'])
+    s3 = boto3.client('s3', aws_access_key_id=os.environ['AWS_ACCESS_KEY_ID'],
+                      aws_secret_access_key=os.environ['AWS_SECRET_ACCESS_KEY'])
     s3.upload_file(prompt, 'flow-ai-hackathon', prompt)
 
     print('Uploaded to S3')
