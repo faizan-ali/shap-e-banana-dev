@@ -10,6 +10,7 @@ from shap_e.util.notebooks import create_pan_cameras, decode_latent_images, deco
 
 app = Potassium("my_app")
 
+
 # @app.init runs at startup, and loads models into the app's context
 @app.init
 def init():
@@ -26,6 +27,7 @@ def init():
     }
 
     return context
+
 
 # @app.handler runs for every call
 @app.handler()
@@ -74,9 +76,10 @@ def handler(context: dict, request: Request) -> Response:
     output = base64.b64encode(f)
 
     return Response(
-        json = {"output": output},
+        json={"output": output},
         status=200
     )
+
 
 if __name__ == "__main__":
     app.serve()

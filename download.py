@@ -1,13 +1,11 @@
-# In this file, we define download_model
-# It runs during container build time to get model weights built into the container
+from shap_e.models.download import load_model
 
-# In this example: A Huggingface BERT model
 
-from transformers import pipeline
-
+# Runs during container build time to get model weights built into the container
 def download_model():
-    # do a dry run of loading the huggingface model, which will download weights
-    pipeline('fill-mask', model='bert-base-uncased')
+    xm = load_model('transmitter')
+    model = load_model('text300M')
+
 
 if __name__ == "__main__":
     download_model()
