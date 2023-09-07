@@ -8,6 +8,9 @@ from shap_e.diffusion.gaussian_diffusion import diffusion_from_config
 from shap_e.models.download import load_model, load_config
 from shap_e.util.notebooks import decode_latent_mesh
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Potassium("my_app")
 

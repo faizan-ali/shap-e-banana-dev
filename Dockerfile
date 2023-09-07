@@ -16,6 +16,9 @@ RUN pip3 install -r requirements.txt
 ADD download.py .
 RUN python3 download.py
 
+ENV AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+ENV AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+
 ADD . .
 
 EXPOSE 8000

@@ -6,21 +6,16 @@
 			"type": "string",
 			"required": true,
 			"max": 2048,
-			"description": "The prompt to complete."
+			"description": "The 3D model to generate."
 		}
 	],
 	"examples": [
 		{
 			"inputs": {
-				"prompt": "Software developers start with a \"Hello, [MASK]!\" script."
+				"prompt": "shark"
 			},
 			"output": {
-				"outputs": {
-					"score": 0.8070755004882812,
-					"token": 2088,
-					"token_str": "world",
-					"sequence": "software developers start with a \" hello, world! \" script."
-				}
+				"url" : "https://flow-ai-hackathon.s3.us-west-1.amazonaws.com/shark.obj"
 			}
 		}
 	]
