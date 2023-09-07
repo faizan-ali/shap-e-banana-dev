@@ -35,11 +35,19 @@ def init():
 # @app.handler runs for every call
 @app.handler()
 def handler(context: dict, request: Request) -> Response:
+    aws_access_key_id = os.getenv['AWS_ACCESS_KEY_ID']
+    aws_secret_access_key = os.getenv['AWS_SECRET_ACCESS_KEY']
     prompt = request.json.get("prompt")
     model = context.get("model")
     diffusion = context.get("diffusion")
     device = context.get("device")
     xm = context.get("xm")
+
+    if aws_access_key_id is None or aws_secret_access_key is None:
+        return Response(
+            json={"error": "AWS credentials not found"},
+            status=500
+        )
 
     print('Generating 3D model for: ', prompt)
 
@@ -70,8 +78,7 @@ def handler(context: dict, request: Request) -> Response:
 
     print('3D asset generated for:' + prompt)
 
-    s3 = boto3.client('s3', aws_access_key_id=os.environ['AWS_ACCESS_KEY_ID'],
-                      aws_secret_access_key=os.environ['AWS_SECRET_ACCESS_KEY'])
+    s3 = boto3.client('s3', aws_access_key_id=aws_access_key_id, aws_secret_access_key=aws_secret_access_key)
     s3.upload_file(prompt, 'flow-ai-hackathon', prompt)
 
     print('Uploaded to S3')

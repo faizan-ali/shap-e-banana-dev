@@ -1,6 +1,9 @@
 # Must use a Cuda version 11+
 FROM pytorch/pytorch:1.11.0-cuda11.3-cudnn8-runtime
 
+ARG AWS_ACCESS_KEY_ID
+ARG AWS_SECRET_ACCESS_KEY
+
 WORKDIR /
 
 # Install git
