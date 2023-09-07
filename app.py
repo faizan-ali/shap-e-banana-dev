@@ -62,7 +62,7 @@ def handler(context: dict, request: Request) -> Response:
         s_churn=0,
     )
 
-    filename = f'tmp_mesh.obj'
+    filename = prompt
 
     t = decode_latent_mesh(xm, latents[0]).tri_mesh()
     with open(filename, 'w') as f:
