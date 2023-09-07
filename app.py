@@ -6,7 +6,7 @@ import torch
 from shap_e.diffusion.sample import sample_latents
 from shap_e.diffusion.gaussian_diffusion import diffusion_from_config
 from shap_e.models.download import load_model, load_config
-from shap_e.util.notebooks import create_pan_cameras, decode_latent_images, decode_latent_mesh
+from shap_e.util.notebooks import decode_latent_mesh
 
 app = Potassium("my_app")
 
@@ -60,10 +60,6 @@ def handler(context: dict, request: Request) -> Response:
         sigma_max=160,
         s_churn=0,
     )
-
-    cameras = create_pan_cameras(size, device)
-    for i, latent in enumerate(latents):
-        images = decode_latent_images(xm, latent, cameras, rendering_mode=render_mode)
 
     filename = f'tmp_mesh.obj'
 
