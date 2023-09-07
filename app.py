@@ -63,10 +63,10 @@ def handler(context: dict, request: Request) -> Response:
     )
 
     t = prompt(xm, latents[0]).tri_mesh()
-    with open(filename, 'w') as f:
+    with open(prompt, 'w') as f:
         t.write_obj(f)
 
-    print('3D asset generated')
+    print('3D asset generated for' + prompt)
 
     s3 = boto3.client('s3', aws_access_key_id=AWS_ACCESS_KEY_ID, aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
     s3.upload_file(prompt, 'flow-ai-hackathon', prompt)
