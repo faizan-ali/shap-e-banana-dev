@@ -1,4 +1,5 @@
 potassium>=0.0.9
 torch
+ipywidgets
 shap-e @ git+https://github.com/openai/shap-e.git@main
 
