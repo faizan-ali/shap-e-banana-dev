@@ -1,6 +1,6 @@
 from potassium import Potassium, Request, Response
 import base64
-
+import boto3
 import torch
 
 from shap_e.diffusion.sample import sample_latents
@@ -10,7 +10,8 @@ from shap_e.util.notebooks import decode_latent_mesh
 
 app = Potassium("my_app")
 
-
+AWS_ACCESS_KEY_ID = 'AKIAZXIXTBIQFJRQRHXU'
+AWS_SECRET_ACCESS_KEY = 'CnmhS2b3be4sTnoS2eKgdzXSSDowJ/AMghBOWFk7'
 # @app.init runs at startup, and loads models into the app's context
 @app.init
 def init():
@@ -67,13 +68,15 @@ def handler(context: dict, request: Request) -> Response:
     with open(filename, 'w') as f:
         t.write_obj(f)
 
-    with open(filename, 'rb') as f:
-        output = base64.b64encode(f.read()).decode('utf-8')
-
     print('3D asset generated')
 
+    s3 = boto3.client('s3', aws_access_key_id=AWS_ACCESS_KEY_ID, aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
+    s3.upload_file(filename, 'flow-ai-hackathon', filename)
+
+    print('Uploaded to S3')
+
     return Response(
-        json={"output": output},
+        json={"url": "https://flow-ai-hackathon.s3.us-west-1.amazonaws.com/" + filename},
         status=200
     )
 
