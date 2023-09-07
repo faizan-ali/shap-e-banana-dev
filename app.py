@@ -7,6 +7,7 @@ from shap_e.diffusion.gaussian_diffusion import diffusion_from_config
 from shap_e.models.download import load_model, load_config
 import os
 from dotenv import load_dotenv
+from shap_e.util.notebooks import decode_latent_mesh
 
 load_dotenv()
 
@@ -63,7 +64,7 @@ def handler(context: dict, request: Request) -> Response:
         s_churn=0,
     )
 
-    t = prompt(xm, latents[0]).tri_mesh()
+    t = decode_latent_mesh(xm, latents[0]).tri_mesh()
     with open(prompt, 'w') as f:
         t.write_obj(f)
 
