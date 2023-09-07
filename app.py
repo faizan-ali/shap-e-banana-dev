@@ -7,11 +7,12 @@ from shap_e.diffusion.sample import sample_latents
 from shap_e.diffusion.gaussian_diffusion import diffusion_from_config
 from shap_e.models.download import load_model, load_config
 from shap_e.util.notebooks import decode_latent_mesh
+import os
 
 app = Potassium("my_app")
 
-AWS_ACCESS_KEY_ID = 'AKIAZXIXTBIQFJRQRHXU'
-AWS_SECRET_ACCESS_KEY = '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'
+AWS_ACCESS_KEY_ID = ''
+AWS_SECRET_ACCESS_KEY = ''
 # @app.init runs at startup, and loads models into the app's context
 @app.init
 def init():
@@ -63,12 +64,12 @@ def handler(context: dict, request: Request) -> Response:
     )
 
     t = prompt(xm, latents[0]).tri_mesh()
-    with open(filename, 'w') as f:
+    with open(prompt, 'w') as f:
         t.write_obj(f)
 
-    print('3D asset generated')
+    print('3D asset generated for' + prompt)
 
-    s3 = boto3.client('s3', aws_access_key_id=AWS_ACCESS_KEY_ID, aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
+    s3 = boto3.client('s3', aws_access_key_id=os.environ['AWS_ACCESS_KEY_ID'], aws_secret_access_key=os.environ['AWS_SECRET_ACCESS_KEY'])
     s3.upload_file(prompt, 'flow-ai-hackathon', prompt)
 
     print('Uploaded to S3')
