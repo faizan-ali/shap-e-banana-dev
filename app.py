@@ -35,12 +35,11 @@ def init():
 # @app.handler runs for every call
 @app.handler()
 def handler(context: dict, request: Request) -> Response:
-    aws_access_key_id = os.getenv['AWS_ACCESS_KEY_ID']
-    aws_secret_access_key = os.getenv['AWS_SECRET_ACCESS_KEY']
+    aws_access_key_id = os.getenv('AWS_ACCESS_KEY_ID')
+    aws_secret_access_key = os.getenv('AWS_SECRET_ACCESS_KEY')
     prompt = request.json.get("prompt")
     model = context.get("model")
     diffusion = context.get("diffusion")
-    device = context.get("device")
     xm = context.get("xm")
 
     if aws_access_key_id is None or aws_secret_access_key is None:
@@ -53,8 +52,6 @@ def handler(context: dict, request: Request) -> Response:
 
     batch_size = 1
     guidance_scale = 15.0
-    render_mode = 'nerf'
-    size = 64
 
     latents = sample_latents(
         batch_size=batch_size,
