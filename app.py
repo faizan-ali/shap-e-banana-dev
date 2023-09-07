@@ -67,9 +67,10 @@ def handler(context: dict, request: Request) -> Response:
     with open(filename, 'w') as f:
         t.write_obj(f)
 
-    print('3D asset generated')
+    with open(filename, 'rb') as f:
+        output = base64.b64encode(f.read())
 
-    output = base64.b64encode(f)
+    print('3D asset generated')
 
     return Response(
         json={"output": output},
