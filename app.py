@@ -62,21 +62,19 @@ def handler(context: dict, request: Request) -> Response:
         s_churn=0,
     )
 
-    filename = prompt
-
-    t = decode_latent_mesh(xm, latents[0]).tri_mesh()
+    t = prompt(xm, latents[0]).tri_mesh()
     with open(filename, 'w') as f:
         t.write_obj(f)
 
     print('3D asset generated')
 
     s3 = boto3.client('s3', aws_access_key_id=AWS_ACCESS_KEY_ID, aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
-    s3.upload_file(filename, 'flow-ai-hackathon', filename)
+    s3.upload_file(prompt, 'flow-ai-hackathon', prompt)
 
     print('Uploaded to S3')
 
     return Response(
-        json={"url": "https://flow-ai-hackathon.s3.us-west-1.amazonaws.com/" + filename},
+        json={"url": "https://flow-ai-hackathon.s3.us-west-1.amazonaws.com/" + prompt},
         status=200
     )
 
