@@ -68,7 +68,7 @@ def handler(context: dict, request: Request) -> Response:
         t.write_obj(f)
 
     with open(filename, 'rb') as f:
-        output = base64.b64encode(f.read())
+        output = base64.b64encode(f.read()).decode('utf-8')
 
     print('3D asset generated')
 
